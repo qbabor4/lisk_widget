@@ -13,8 +13,14 @@ import qbabor4.pl.liskwidget.R;
  */
 public class MyWidgetActivity extends AppWidgetProvider {
 
-    static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
-                                int appWidgetId) {
+    static void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId) {
+            /* TODO
+             - dostac kurs liska na pln
+             - zmianiac co minutę kurs na widgecie
+             - dać alarm zamiast updatowania w jakimś okresie
+             - wywalić konfigurację
+             - guzik z refresh, żeby updatowac ręcznie kurs
+              */
 
         CharSequence widgetText = MyWidgetActivityConfigureActivity.loadTitlePref(context, appWidgetId);
         // Construct the RemoteViews object
@@ -30,6 +36,7 @@ public class MyWidgetActivity extends AppWidgetProvider {
         // There may be multiple widgets active, so update all of them
         for (int appWidgetId : appWidgetIds) {
             updateAppWidget(context, appWidgetManager, appWidgetId);
+
         }
     }
 
@@ -38,6 +45,7 @@ public class MyWidgetActivity extends AppWidgetProvider {
         // When the user deletes the widget, delete the preference associated with it.
         for (int appWidgetId : appWidgetIds) {
             MyWidgetActivityConfigureActivity.deleteTitlePref(context, appWidgetId);
+
         }
     }
 

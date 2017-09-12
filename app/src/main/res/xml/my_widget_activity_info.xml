@@ -3,11 +3,11 @@
     android:configure="layout.MyWidgetActivityConfigureActivity"
     android:initialKeyguardLayout="@layout/my_widget_activity"
     android:initialLayout="@layout/my_widget_activity"
-    android:minHeight="110dp"
-    android:minWidth="250dp"
+    android:minHeight="40dp"
+    android:minWidth="160dp"
     android:previewImage="@drawable/lisk"
     android:resizeMode="horizontal|vertical"
-    android:updatePeriodMillis="86400000"
+    android:updatePeriodMillis="6000"
     android:widgetCategory="home_screen">
 
 </appwidget-provider>

@@ -31,6 +31,8 @@ public class MyWidgetActivity extends AppWidgetProvider {
              - guzik z refresh, żeby updatowac ręcznie kurs
              - załozyc jakis timer zeby co 5 sec sie updatowało
              - dodac wybór czasu updatowania w konfiguracji
+             - asynchronicznie pobierac dane jak trzeba bedzie
+             - zwracac jsona (przerobic funkcje
               */
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.my_widget_activity);
 

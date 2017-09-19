@@ -21,7 +21,10 @@ public class MyWidgetActivity extends AppWidgetProvider {
 
     private static int num1 = 0;
 
-    private static final String SYNC_CLICKED = "automaticWidgetSyncButtonClick";
+    //private static final String SYNC_CLICKED = "automaticWidgetSyncButtonClick";
+
+    // Buttons packagename and WIDGET_BUTTON
+    public static String WIDGET_BUTTON = "android.appwidget.action.WIDGET_BUTTON";
 
     void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId) {
             /* TODO
@@ -33,23 +36,29 @@ public class MyWidgetActivity extends AppWidgetProvider {
              - załozyc jakis timer zeby co 5 sec sie updatowało
              - dodac wybór czasu updatowania w konfiguracji
               */
+        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.my_widget_activity);
+
+        // Listener for refresh_button
+        Intent intent = new Intent(WIDGET_BUTTON);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        views.setOnClickPendingIntent(R.id.refresh_button, pendingIntent);
+
         num1 += 1;
         String widgetText = String.valueOf(num1);
-        //TOAST
         Toast toast = Toast.makeText(context, "update", Toast.LENGTH_SHORT);
         toast.show();
         //CharSequence widgetText = MyWidgetActivityConfigureActivity.loadTitlePref(context, appWidgetId);
         // Construct the RemoteViews object
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.my_widget_activity);
+
         views.setTextViewText(R.id.appwidget_text, widgetText);
 
 
-        ComponentName watchWidget;
+        //ComponentName watchWidget;
 
 
-        watchWidget = new ComponentName(context, MyWidgetActivity.class);
+        //watchWidget = new ComponentName(context, MyWidgetActivity.class);
 
-        views.setOnClickPendingIntent(R.id.refresh_button, getPendingSelfIntent(context, SYNC_CLICKED));
+        //views.setOnClickPendingIntent(R.id.refresh_button, getPendingSelfIntent(context, SYNC_CLICKED));
 
         //appWidgetManager.updateAppWidget(watchWidget, views);
         // Instruct the widget manager to update the widget
@@ -61,28 +70,35 @@ public class MyWidgetActivity extends AppWidgetProvider {
         // TODO Auto-generated method stub
         super.onReceive(context, intent);
 
-        if (SYNC_CLICKED.equals(intent.getAction())) {
+        // Runs when refresh button is clicked
+        if (WIDGET_BUTTON.equals(intent.getAction())){
+            //Do when button is clicked
+            Toast toast1 = Toast.makeText(context, "refreshing", Toast.LENGTH_SHORT);
+            toast1.show();
+        }
+        /*if (SYNC_CLICKED.equals(intent.getAction())) {
 
             AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
 
             RemoteViews remoteViews;
             ComponentName watchWidget;
 
-            remoteViews = new RemoteViews(context.getPackageName(), R.layout.my_widget_activity);
-            watchWidget = new ComponentName(context, MyWidgetActivity.class);
+            //remoteViews = new RemoteViews(context.getPackageName(), R.layout.my_widget_activity);
+           // watchWidget = new ComponentName(context, MyWidgetActivity.class);
 
-            remoteViews.setTextViewText(R.id.refresh_button, "TESTING");
+            //remoteViews.setTextViewText(R.id.refresh_button, "TESTING");
 
             appWidgetManager.updateAppWidget(watchWidget, remoteViews);
+            }
+        */
 
-        }
     }
 
-    protected PendingIntent getPendingSelfIntent(Context context, String action) {
+    /*protected PendingIntent getPendingSelfIntent(Context context, String action) {
         Intent intent = new Intent(context, getClass());
         intent.setAction(action);
         return PendingIntent.getBroadcast(context, 0, intent, 0);
-    }
+    } */
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {

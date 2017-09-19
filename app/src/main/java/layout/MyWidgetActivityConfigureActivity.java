@@ -30,7 +30,8 @@ public class MyWidgetActivityConfigureActivity extends Activity {
 
             // It is the responsibility of the configuration activity to update the app widget
             AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-            MyWidgetActivity.updateAppWidget(context, appWidgetManager, mAppWidgetId);
+            MyWidgetActivity mwa = new MyWidgetActivity();
+            mwa.updateAppWidget(context, appWidgetManager, mAppWidgetId);
 
             // Make sure we pass back the original appWidgetId
             Intent resultValue = new Intent();

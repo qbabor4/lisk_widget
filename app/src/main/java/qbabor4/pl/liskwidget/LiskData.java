@@ -25,16 +25,17 @@ public class LiskData extends AsyncTask<String, String, String> {
     //ProgressDialog pd;
     String txtJson;
 
-    /*protected void onPreExecute() {
+    protected void onPreExecute() {
         super.onPreExecute();
-
+        /*
         pd = new ProgressDialog(R.layout.my_widget_activity);
         pd.setMessage("Please wait");
         pd.setCancelable(false);
         pd.show();
-    } */
+        */
+    }
 
-    protected String doInBackground(String... params){
+    public String doInBackground(String... params){
         HttpURLConnection connection = null;
         BufferedReader reader = null;
 

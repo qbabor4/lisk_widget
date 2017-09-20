@@ -3,12 +3,14 @@ package layout;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
 
+import qbabor4.pl.liskwidget.LiskData;
 import qbabor4.pl.liskwidget.R;
 
 /**
@@ -18,6 +20,8 @@ import qbabor4.pl.liskwidget.R;
 public class MyWidgetActivity extends AppWidgetProvider {
 
     private static int num1 = 0;
+
+    AppWidgetManager appWidgetManager = null;
 
     // Buttons packagename and WIDGET_BUTTON
     public static String WIDGET_BUTTON = "android.appwidget.action.WIDGET_BUTTON";
@@ -33,6 +37,7 @@ public class MyWidgetActivity extends AppWidgetProvider {
              - dodac wybór czasu updatowania w konfiguracji
              - asynchronicznie pobierac dane jak trzeba bedzie
              - zwracac jsona (przerobic funkcje
+             - dodadc do LiskData funkcje zwracajace poszczególne dane w Stringu
               */
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.my_widget_activity);
 
@@ -44,6 +49,8 @@ public class MyWidgetActivity extends AppWidgetProvider {
         Toast toast = Toast.makeText(context, "update", Toast.LENGTH_SHORT);
         toast.show();
 
+        String liskData = getLiskData();
+
         num1 += 1;
         String widgetText = String.valueOf(num1);
         // Changes text of widget
@@ -51,6 +58,18 @@ public class MyWidgetActivity extends AppWidgetProvider {
 
         //Updates widget
         appWidgetManager.updateAppWidget(appWidgetId, views);
+    }
+
+
+
+    public String getLiskData(){
+        //LiskData liskData = new LiskData();
+        //String liskString = liskData.doInBackground("https://bitbay.net/API/Public/" + "LSK" + "PLN" + "/" + "ticker" + ".json");
+        String liskString = "lol";
+        num1 += 1;
+        return liskString;
+
+        // TODO! napisac klasę pobierającą dane z adresu url
     }
 
     @Override
@@ -62,6 +81,13 @@ public class MyWidgetActivity extends AppWidgetProvider {
             //Do when button is clicked
             Toast toast1 = Toast.makeText(context, "refreshing", Toast.LENGTH_SHORT);
             toast1.show();
+            // TODO: Change text of textview appwidget
+            num1+=1;
+            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.my_widget_activity);
+            views.setTextViewText(R.id.appwidget_text, String.valueOf(num1));
+            ComponentName componentName = new ComponentName(context, MyWidgetActivity.class);
+            AppWidgetManager.getInstance(context).updateAppWidget(componentName, views);
+            //TODO: Zmianiac tylko na jednym widgecie a nie na wszystkich 
         }
     }
 
@@ -72,6 +98,7 @@ public class MyWidgetActivity extends AppWidgetProvider {
             updateAppWidget(context, appWidgetManager, appWidgetId);
 
         }
+        //this.appWidgetManager = appWidgetManager;
     }
 
     @Override

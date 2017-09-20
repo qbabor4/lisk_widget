@@ -27,7 +27,7 @@ public class MyWidgetActivity extends AppWidgetProvider {
      * główne błędy:
      * updatuje ostatnio dodany widget a nie ten na którym sie klika
      * ? dodac do nazwy intenta id widgeta i tak sprawdzac w onReceive
-     *
+     * id w intence jest takie jak ostatniego widgeta ( nie ma 2 osobnych intentow tylko jeden)
      */
 
     private static int num1 = 0;
@@ -51,7 +51,9 @@ public class MyWidgetActivity extends AppWidgetProvider {
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.my_widget_activity);
 
         // Creating intent for button. When button is pressed you can get it in onReceive()
-        Intent intent = new Intent(WIDGET_BUTTON);
+        //Intent intent = new Intent(WIDGET_BUTTON);
+        Intent intent = new Intent(context, MyWidgetActivity.class);
+        intent.setAction(WIDGET_BUTTON);
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId); // adds id of widget to intent informations
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         //PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_ONE_SHOT);
@@ -116,13 +118,14 @@ public class MyWidgetActivity extends AppWidgetProvider {
                 views.setTextViewText(R.id.appwidget_text, String.valueOf(num1));
                 //Log.d("ids", String.valueOf(ids));
                 //int widgetId = Integer.parseInt(intent.getAction().substring(WIDGET_BUTTON.length()));
+                int[] appWidgetId = AppWidgetManager.getInstance(context).getAppWidgetIds(
+                        new ComponentName(context, MyWidgetActivity.class)); // updatuje wsztstkie widgety jak sie klika button
 
-                //AppWidgetManager.updateAppWidget(idd, views); //To odkomentowac
-                //AppWidgetManager.getInstance(context).updateAppWidget(componentName, views);
+                // dostac id od widgeta na którym byl klikniety guzik. ...albo olać to
                 Toast toast1 = Toast.makeText(context, "refreshing" + idd, Toast.LENGTH_SHORT);
                 toast1.show();
                 AppWidgetManager manager = AppWidgetManager.getInstance(context);
-                manager.updateAppWidget(idd, views);
+                manager.updateAppWidget(appWidgetId, views); // idd
                 //TODO: Zmianiac tylko na jednym widgecie a nie na wszystkich
             }
         }

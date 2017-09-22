@@ -6,9 +6,16 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.Toast;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.concurrent.ExecutionException;
+
+import qbabor4.pl.liskwidget.LiskData;
 import qbabor4.pl.liskwidget.R;
 
 /**
@@ -30,6 +37,7 @@ import qbabor4.pl.liskwidget.R;
  - dodadc do LiskData funkcje zwracajace poszczególne dane w Stringu
  - zmiana tylko na jednym widgecie
  - zmienic layout
+ - dodac ikonkę refresh na guziku
  **
  */
 public class MyWidgetActivity extends AppWidgetProvider {
@@ -71,13 +79,20 @@ public class MyWidgetActivity extends AppWidgetProvider {
 
     public String getLiskData(){
         // TODO! napisac klasę pobierającą dane z adresu url
-        //LiskData liskData = new LiskData();
-        //String liskString = liskData.doInBackground("https://bitbay.net/API/Public/" + "LSK" + "PLN" + "/" + "ticker" + ".json");
-        String liskString = "lol";
-        num1 += 1;
-        return liskString;
+        String jsonUrl = "https://bitbay.net/API/Public/" + "LSK" + "PLN" + "/" + "ticker" + ".json";
 
-
+        AsyncTask<String, Void, String> jsonData = new LiskData().execute(jsonUrl);
+        // dostac return z doInBackground()
+        String liskString = null;
+        try {
+            liskString = jsonData.get();
+        } catch (InterruptedException e){
+            e.printStackTrace();
+        } catch (ExecutionException e){
+            e.printStackTrace();
+        }
+        return liskString; //TODO: sprawdzic czy działa; Jak get() to moze nie byc w tle, tylko bedzie czekał i nie bedzie asynchronicznie.
+        // TODO: mozna od razu nadpisac textview w asynchronicznym (moze byc kurwa ciezko z tym updatowaniem widgeta)
     }
 
     @Override
@@ -92,7 +107,7 @@ public class MyWidgetActivity extends AppWidgetProvider {
                 RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.my_widget_activity);
                 // sets text on textView
                 views.setTextViewText(R.id.appwidget_text, String.valueOf(num1));
-                
+
                 int[] appWidgetId = AppWidgetManager.getInstance(context).getAppWidgetIds(new ComponentName(context, MyWidgetActivity.class));
                 AppWidgetManager manager = AppWidgetManager.getInstance(context);
                 // updates all widgets on screen

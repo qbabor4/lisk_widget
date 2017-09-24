@@ -55,16 +55,16 @@ public class MyWidgetActivity extends AppWidgetProvider {
 
     void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId) {
         MyWidgetActivity.context = context;
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.my_widget_activity);
 
+        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.my_widget_activity);
         createIntentForRefreshButton(context, views, appWidgetId);
 
         // sets text on textView
-        String widgetText = String.valueOf(num1);
-        views.setTextViewText(R.id.appwidget_text, widgetText);
+        //String widgetText = String.valueOf(num1);
+        //views.setTextViewText(R.id.appwidget_text, widgetText);
 
         //Updates widget
-        appWidgetManager.updateAppWidget(appWidgetId, views);
+        //appWidgetManager.updateAppWidget(appWidgetId, views);
     }
 
     /**
@@ -101,19 +101,7 @@ public class MyWidgetActivity extends AppWidgetProvider {
         if(intent != null) {
             // When refresh button is clicked
             if (WIDGET_BUTTON.equals(intent.getAction())) {
-
-                num1 += 1;
                 setLiskData();
-                //RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.my_widget_activity);
-                // sets text on textView
-                //views.setTextViewText(R.id.appwidget_text, String.valueOf(num1));
-                //Toast.makeText(context, jsonLisk, Toast.LENGTH_LONG).show();
-
-                //int[] appWidgetId = AppWidgetManager.getInstance(context).getAppWidgetIds(new ComponentName(context, MyWidgetActivity.class));
-                //AppWidgetManager manager = AppWidgetManager.getInstance(context);
-
-                // updates all widgets on screen
-                //manager.updateAppWidget(appWidgetId, views);
             }
         }
     }
@@ -123,7 +111,7 @@ public class MyWidgetActivity extends AppWidgetProvider {
         // There may be multiple widgets active, so update all of them
         for (int appWidgetId : appWidgetIds) {
             updateAppWidget(context, appWidgetManager, appWidgetId);
-
+            setLiskData();
         }
     }
 

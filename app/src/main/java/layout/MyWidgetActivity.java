@@ -39,6 +39,8 @@ import qbabor4.pl.liskwidget.R;
  - zmienic layout
  - dodac ikonkę refresh na guziku
  - sprawdzic czy jest sieć
+ - błąd jak ktos poda 0 parametrów do funkcji setLiskData()
+ - animacja ładowania danych jak onPreExecute()
  **
  */
 public class MyWidgetActivity extends AppWidgetProvider {
@@ -83,15 +85,15 @@ public class MyWidgetActivity extends AppWidgetProvider {
         views.setOnClickPendingIntent(R.id.refresh_button, pendingIntent);
     }
 
+    /**
+     * Sets textViews with data got from json from web
+     */
     public void setLiskData(){
-        // TODO! napisac klasę pobierającą dane z adresu url
-        String jsonUrl = "https://bitbay.net/API/Public/" + "LSK" + "PLN" + "/" + "ticker" + ".json";
+        String liskUrl = "https://bitbay.net/API/Public/LSKPLN/ticker.json";
+        String btcUrl = "https://bitbay.net/API/Public/BTCPLN/ticker.json";
 
-        new LiskData().execute(jsonUrl);
-        // w ayncTasc zmienic tekst na widgecie
+        new LiskData().execute(liskUrl);
 
-         //TODO: sprawdzic czy działa; Jak get() to moze nie byc w tle, tylko bedzie czekał i nie bedzie asynchronicznie.
-        // TODO: mozna od razu nadpisac textview w asynchronicznym (moze byc kurwa ciezko z tym updatowaniem widgeta)
     }
 
     @Override

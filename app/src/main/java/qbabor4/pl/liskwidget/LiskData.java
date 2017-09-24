@@ -8,6 +8,13 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.RemoteViews;
 
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import layout.MyWidgetActivity;
 
 /**
@@ -16,20 +23,28 @@ import layout.MyWidgetActivity;
 public class LiskData extends AsyncTask<String, Void, String> {
 
     @Override
-    protected String doInBackground(String... params) {
-        String liskData = null;
-        for (String url: params){
-            liskData = "lisk23";
-            // zaoytanie http. pobranie jsona
-            Log.d("widgetBack", liskData);
-        }
-        return liskData;
+    protected void onPreExecute() {
+        super.onPreExecute();
+        // TODO: animacja ładowania danych; stop na onPostExecute
     }
+
+    @Override
+    protected String doInBackground(String... params) {
+        String url = params[0];
+
+        HttpHandler httpHandler = new HttpHandler();
+        String json = httpHandler.makeServiceCall(url);
+
+        Log.d("widgetBack", url);
+
+        return json;
+    }
+
 
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
-        Log.d("widget1", s);
+        //Log.d("widget1", s);
         Context context = MyWidgetActivity.getAppContext();
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.my_widget_activity);
         views.setTextViewText(R.id.appwidget_text, String.valueOf(s));

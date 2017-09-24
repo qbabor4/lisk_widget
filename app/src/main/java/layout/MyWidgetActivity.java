@@ -41,11 +41,13 @@ import qbabor4.pl.liskwidget.R;
  - sprawdzic czy jest sieć
  - błąd jak ktos poda 0 parametrów do funkcji setLiskData()
  - animacja ładowania danych jak onPreExecute()
+ - widget sie zcrashował raz jak wyłaczyłem android studio ???
+ - powywalac "MyWidgetActivity.context = context;"
  **
  */
 public class MyWidgetActivity extends AppWidgetProvider {
 
-    private static Context context2;
+    private static Context context;
 
     // number to increment and show in textView
     private static int num1 = 0;
@@ -54,11 +56,11 @@ public class MyWidgetActivity extends AppWidgetProvider {
 
 
     public static Context getAppContext() {
-        return MyWidgetActivity.context2;
+        return MyWidgetActivity.context;
     }
 
     void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId) {
-        MyWidgetActivity.context2 = context;
+        MyWidgetActivity.context = context;
 
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.my_widget_activity);
         createIntentForRefreshButton(context, views, appWidgetId);
@@ -98,6 +100,7 @@ public class MyWidgetActivity extends AppWidgetProvider {
         if(intent != null) {
             // When refresh button is clicked
             if (WIDGET_BUTTON.equals(intent.getAction())) {
+                MyWidgetActivity.context = context;
                 setLiskData();
             }
         }
@@ -108,6 +111,7 @@ public class MyWidgetActivity extends AppWidgetProvider {
         // There may be multiple widgets active, so update all of them
         for (int appWidgetId : appWidgetIds) {
             updateAppWidget(context, appWidgetManager, appWidgetId);
+            MyWidgetActivity.context = context;
             setLiskData();
         }
     }
@@ -124,11 +128,14 @@ public class MyWidgetActivity extends AppWidgetProvider {
     @Override
     public void onEnabled(Context context) {
         // Enter relevant functionality for when the first widget is created
+        MyWidgetActivity.context = context;
+
     }
 
     @Override
     public void onDisabled(Context context) {
         // Enter relevant functionality for when the last widget is disabled
+        MyWidgetActivity.context = context;
     }
 }
 

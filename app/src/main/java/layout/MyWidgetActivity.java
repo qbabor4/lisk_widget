@@ -43,13 +43,18 @@ import qbabor4.pl.liskwidget.R;
  */
 public class MyWidgetActivity extends AppWidgetProvider {
 
+    private static Context context;
+
+    public static Context getAppContext(){
+        return MyWidgetActivity.context;
+    }
     // number to increment and show in textView
     private static int num1 = 0;
     // Buttons packagename and WIDGET_BUTTON
     public static final String WIDGET_BUTTON = "android.appwidget.action.WIDGET_BUTTON";
 
     void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId) {
-
+        MyWidgetActivity.context = context;
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.my_widget_activity);
 
         createIntentForRefreshButton(context, views, appWidgetId);
@@ -99,14 +104,16 @@ public class MyWidgetActivity extends AppWidgetProvider {
 
                 num1 += 1;
                 setLiskData();
-                RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.my_widget_activity);
+                //RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.my_widget_activity);
                 // sets text on textView
-                views.setTextViewText(R.id.appwidget_text, String.valueOf(num1));
+                //views.setTextViewText(R.id.appwidget_text, String.valueOf(num1));
                 //Toast.makeText(context, jsonLisk, Toast.LENGTH_LONG).show();
-                int[] appWidgetId = AppWidgetManager.getInstance(context).getAppWidgetIds(new ComponentName(context, MyWidgetActivity.class));
-                AppWidgetManager manager = AppWidgetManager.getInstance(context);
+
+                //int[] appWidgetId = AppWidgetManager.getInstance(context).getAppWidgetIds(new ComponentName(context, MyWidgetActivity.class));
+                //AppWidgetManager manager = AppWidgetManager.getInstance(context);
+
                 // updates all widgets on screen
-                manager.updateAppWidget(appWidgetId, views); // idd
+                //manager.updateAppWidget(appWidgetId, views);
             }
         }
     }

@@ -45,28 +45,25 @@ import qbabor4.pl.liskwidget.R;
  */
 public class MyWidgetActivity extends AppWidgetProvider {
 
-    private static Context context;
+    private static Context context2;
 
-    public static Context getAppContext(){
-        return MyWidgetActivity.context;
-    }
     // number to increment and show in textView
     private static int num1 = 0;
     // Buttons packagename and WIDGET_BUTTON
     public static final String WIDGET_BUTTON = "android.appwidget.action.WIDGET_BUTTON";
 
+
+    public static Context getAppContext() {
+        return MyWidgetActivity.context2;
+    }
+
     void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId) {
-        MyWidgetActivity.context = context;
+        MyWidgetActivity.context2 = context;
 
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.my_widget_activity);
         createIntentForRefreshButton(context, views, appWidgetId);
 
-        // sets text on textView
-        //String widgetText = String.valueOf(num1);
-        //views.setTextViewText(R.id.appwidget_text, widgetText);
-
-        //Updates widget
-        //appWidgetManager.updateAppWidget(appWidgetId, views);
+        appWidgetManager.updateAppWidget(appWidgetId, views);
     }
 
     /**
@@ -76,7 +73,7 @@ public class MyWidgetActivity extends AppWidgetProvider {
      * @param views
      * @param appWidgetId
      */
-    private void createIntentForRefreshButton(Context context, RemoteViews views, int appWidgetId){
+    private void createIntentForRefreshButton(Context context, RemoteViews views, int appWidgetId){ //TODO!: Not creating intent
         // Creating intent for button. When button is pressed you can get it in onReceive()
         Intent intent = new Intent(context, MyWidgetActivity.class);
         intent.setAction(WIDGET_BUTTON);
@@ -93,13 +90,11 @@ public class MyWidgetActivity extends AppWidgetProvider {
         String btcUrl = "https://bitbay.net/API/Public/BTCPLN/ticker.json";
 
         new LiskData().execute(liskUrl);
-
     }
 
     @Override
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
-
         if(intent != null) {
             // When refresh button is clicked
             if (WIDGET_BUTTON.equals(intent.getAction())) {

@@ -5,15 +5,9 @@ import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.widget.RemoteViews;
+import android.widget.Toast;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 import layout.MyWidgetActivity;
 
@@ -26,16 +20,14 @@ public class LiskData extends AsyncTask<String, Void, String> {
     protected void onPreExecute() {
         super.onPreExecute();
         // TODO: animacja ładowania danych; stop na onPostExecute
+        //<uses-permission android:name="android.permission.INTERNET" />
     }
 
     @Override
     protected String doInBackground(String... params) {
         String url = params[0];
-
         HttpHandler httpHandler = new HttpHandler();
         String json = httpHandler.makeServiceCall(url);
-
-        Log.d("widgetBack", url);
 
         return json;
     }
@@ -44,16 +36,27 @@ public class LiskData extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
-        //Log.d("widget1", s);
+
+        setTextViewTextWidget(R.id.appwidget_text, s);
+
+        Context context = MyWidgetActivity.getAppContext();
+        Toast.makeText(context, "updating", Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * Changes TextView and updates widget
+     * @param id id of TextView
+     * @param text text to be set in TextView
+     */
+    private void setTextViewTextWidget(int id, String text){
         Context context = MyWidgetActivity.getAppContext();
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.my_widget_activity);
-        views.setTextViewText(R.id.appwidget_text, String.valueOf(s));
+        views.setTextViewText(id, String.valueOf(text));
+
         int[] appWidgetId = AppWidgetManager.getInstance(context).getAppWidgetIds(new ComponentName(context, MyWidgetActivity.class));
         AppWidgetManager manager = AppWidgetManager.getInstance(context);
-
         // updates all widgets on screen
         manager.updateAppWidget(appWidgetId, views);
-        // tu zmienic textView
     }
 }
 

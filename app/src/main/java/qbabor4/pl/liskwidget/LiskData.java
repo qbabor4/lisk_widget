@@ -1,47 +1,29 @@
 package qbabor4.pl.liskwidget;
 
+
 import android.os.AsyncTask;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
+import android.util.Log;
 
 /**
- * Takes String parameters, Void - doesnt return state information, String - returns this
+ * Takes String parameters, Void - doesn't return state information, String - returns String
  */
 public class LiskData extends AsyncTask<String, Void, String> {
-    String url = "https://bitbay.net/API/Public/" + "LSK" + "PLN" + "/" + "ticker" + ".json";
 
     @Override
     protected String doInBackground(String... params) {
-        String jsonResult = null;
-        try {
-            for (String url : params) {
-                jsonResult = getJsonFromServer(url);
-            }
-        } catch (IOException e){
-            e.printStackTrace();
+        String liskData = null;
+        for (String url: params){
+            liskData = "lisk23";
+            Log.d("widgetBack", liskData);
         }
-        return jsonResult;
+        return liskData;
     }
 
-    private static String getJsonFromServer(String url) throws IOException {
-
-        BufferedReader inputStream = null;
-
-        URL jsonUrl = new URL(url);
-        URLConnection dc = jsonUrl.openConnection();
-
-        dc.setConnectTimeout(5000);
-        dc.setReadTimeout(5000);
-
-        inputStream = new BufferedReader(new InputStreamReader(dc.getInputStream()));
-
-        // read the JSON results into a string
-        String jsonResult = inputStream.readLine();
-        return jsonResult;
+    @Override
+    protected void onPostExecute(String s) {
+        super.onPostExecute(s);
+        Log.d("widget1", s);
+        // tu zmienic textView
     }
-
-
 }
+

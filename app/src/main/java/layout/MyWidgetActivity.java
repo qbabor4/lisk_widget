@@ -43,6 +43,7 @@ import qbabor4.pl.liskwidget.R;
  - animacja ładowania danych jak onPreExecute()
  - wybór waluty w konfiguracji
  - jak dodaje widget na ekran to nie updatuje textviews
+ - dac wszystko bardziej do środka
  **
  */
 public class MyWidgetActivity extends AppWidgetProvider {

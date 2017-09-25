@@ -57,7 +57,7 @@ public class LiskData extends AsyncTask<String, Void, String> {
                 minPrice = jsonObject.getString("min");
                 minPrice = addZeros(minPrice);
                 maxPrice = jsonObject.getString("max");
-                maxPrice = addZeros(minPrice);
+                maxPrice = addZeros(maxPrice);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

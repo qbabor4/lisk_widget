@@ -8,6 +8,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
@@ -25,25 +27,13 @@ import qbabor4.pl.liskwidget.R;
  * - Button updates all widgets ( when creating new intent widgetId is repacled with new widgetId and you cant get to this first id)
  **
  /* TODO
- - dostac kurs liska na pln
  - zmianiac co minutę kurs na widgecie
- - dać alarm zamiast updatowania w jakimś okresie
- - wywalić konfigurację (albo do niej cos dopisac)
- - guzik z refresh, żeby updatowac ręcznie kurs
  - załozyc jakis timer zeby co 5 sec sie updatowało
  - dodac wybór czasu updatowania w konfiguracji
- - asynchronicznie pobierac dane jak trzeba bedzie
- - zwracac jsona (przerobic funkcje
- - dodadc do LiskData funkcje zwracajace poszczególne dane w Stringu
- - zmiana tylko na jednym widgecie
- - zmienic layout
- - dodac ikonkę refresh na guziku
- - sprawdzic czy jest sieć
  - błąd jak ktos poda 0 parametrów do funkcji setLiskData()
- - animacja ładowania danych jak onPreExecute()
  - wybór waluty w konfiguracji
  - jak dodaje widget na ekran to nie updatuje textviews
- - dac wszystko bardziej do środka
+ - zobaczyc co sie dzieje jak sie dodaje widget na ekran
  **
  */
 public class MyWidgetActivity extends AppWidgetProvider {
@@ -68,9 +58,9 @@ public class MyWidgetActivity extends AppWidgetProvider {
     /**
      * Creates intent for refresh button
      * You can get action in onReceive()
-     * @param context
-     * @param views
-     * @param appWidgetId
+     * @param context context of widget
+     * @param views view of widget
+     * @param appWidgetId id of widget
      */
     private void createIntentForRefreshButton(Context context, RemoteViews views, int appWidgetId){ //TODO!: Not creating intent
         // Creating intent for button. When button is pressed you can get it in onReceive()

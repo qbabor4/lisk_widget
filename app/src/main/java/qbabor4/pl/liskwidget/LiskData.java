@@ -6,6 +6,9 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
@@ -26,7 +29,6 @@ public class LiskData extends AsyncTask<String, Void, String> {
     protected void onPreExecute() {
         super.onPreExecute();
         // TODO: animacja ładowania danych; stop na onPostExecute
-        //<uses-permission android:name="android.permission.INTERNET" />
     }
 
     @Override
@@ -85,7 +87,10 @@ public class LiskData extends AsyncTask<String, Void, String> {
         Log.d("dot", String.valueOf(dot));
         if (price.length() != dot +3){
             price += "0";
+        } else if (dot == -1){
+            price += ".00";
         }
+        
         return price;
         // zobaczy na którym miejscu jest kropka
     }

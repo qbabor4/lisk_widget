@@ -5,6 +5,7 @@ import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
@@ -41,33 +42,52 @@ public class LiskData extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
-        JSONObject jsonObject = new JSONObject();
-        String lastPrice = null;
-        String minPrice = null;
-        String maxPrice = null;
-
-        try {
-            jsonObject = new JSONObject(s);
-            lastPrice = jsonObject.getString("last");
-            minPrice = jsonObject.getString("min");
-            maxPrice = jsonObject.getString("max");
-        } catch (JSONException e){
-            e.printStackTrace();
-        }
-
         Context context = MyWidgetActivity.getAppContext();
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.my_widget_activity);
+        if (s != null) {
+            JSONObject jsonObject;
+            String lastPrice = null;
+            String minPrice = null;
+            String maxPrice = null;
 
-        views.setTextViewText(R.id.last_price, lastPrice);
-        views.setTextViewText(R.id.min_price, "Min " + minPrice);
-        views.setTextViewText(R.id.max_price, "Max " +maxPrice);
+            try {
+                jsonObject = new JSONObject(s);
+                lastPrice = jsonObject.getString("last");
+                lastPrice = addZeros(lastPrice);
+                //Toast.makeText(context, String.valueOf(lastPrice.length()), Toast.LENGTH_SHORT).show();
+                minPrice = jsonObject.getString("min");
+                minPrice = addZeros(minPrice);
+                maxPrice = jsonObject.getString("max");
+                maxPrice = addZeros(minPrice);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
-        int[] appWidgetId = AppWidgetManager.getInstance(context).getAppWidgetIds(new ComponentName(context, MyWidgetActivity.class));
-        AppWidgetManager manager = AppWidgetManager.getInstance(context);
-        // updates all widgets on screen
-        manager.updateAppWidget(appWidgetId, views);
 
-        Toast.makeText(context, "updating", Toast.LENGTH_SHORT).show();
+            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.my_widget_activity);
+
+            views.setTextViewText(R.id.last_price, lastPrice + "zł");
+            views.setTextViewText(R.id.min_price, "Min " + minPrice);
+            views.setTextViewText(R.id.max_price, "Max " + maxPrice);
+
+            int[] appWidgetId = AppWidgetManager.getInstance(context).getAppWidgetIds(new ComponentName(context, MyWidgetActivity.class));
+            AppWidgetManager manager = AppWidgetManager.getInstance(context);
+            // updates all widgets on screen
+            manager.updateAppWidget(appWidgetId, views);
+
+            Toast.makeText(context, "updating", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context, "No Internet connection", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private static String addZeros(String price){
+        int dot = price.indexOf(".");
+        Log.d("dot", String.valueOf(dot));
+        if (price.length() != dot +3){
+            price += "0";
+        }
+        return price;
+        // zobaczy na którym miejscu jest kropka
     }
 
 }

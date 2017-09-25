@@ -4,10 +4,10 @@
     android:initialKeyguardLayout="@layout/my_widget_activity"
     android:initialLayout="@layout/my_widget_activity"
     android:minHeight="40dp"
-    android:minWidth="120dp"
+    android:minWidth="110dp"
     android:previewImage="@drawable/lisk"
     android:resizeMode="none"
     android:updatePeriodMillis="1800000"
     android:widgetCategory="home_screen">
-
+    <!-- (cells * 70) - 30 Width/Height -->
 </appwidget-provider>

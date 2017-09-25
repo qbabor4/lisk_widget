@@ -41,16 +41,14 @@ import qbabor4.pl.liskwidget.R;
  - sprawdzic czy jest sieć
  - błąd jak ktos poda 0 parametrów do funkcji setLiskData()
  - animacja ładowania danych jak onPreExecute()
- - widget sie zcrashował raz jak wyłaczyłem android studio ???
- - powywalac "MyWidgetActivity.context = context;"
+ - wybór waluty w konfiguracji
+ - jak dodaje widget na ekran to nie updatuje textviews
  **
  */
 public class MyWidgetActivity extends AppWidgetProvider {
 
     private static Context context;
 
-    // number to increment and show in textView
-    private static int num1 = 0;
     // Buttons packagename and WIDGET_BUTTON
     public static final String WIDGET_BUTTON = "android.appwidget.action.WIDGET_BUTTON";
 
@@ -79,7 +77,7 @@ public class MyWidgetActivity extends AppWidgetProvider {
         intent.setAction(WIDGET_BUTTON);
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId); // adds id of widget to intent informations (Not used)
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        views.setOnClickPendingIntent(R.id.refresh_button, pendingIntent);
+        views.setOnClickPendingIntent(R.id.refresh_button_white, pendingIntent);
     }
 
     /**

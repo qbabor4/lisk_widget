@@ -48,7 +48,9 @@ import qbabor4.pl.liskwidget.R;
 public class MyWidgetActivity extends AppWidgetProvider {
 
     private static Context context;
-    
+
+    // number to increment and show in textView
+    private static int num1 = 0;
     // Buttons packagename and WIDGET_BUTTON
     public static final String WIDGET_BUTTON = "android.appwidget.action.WIDGET_BUTTON";
 

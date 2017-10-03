@@ -22,7 +22,9 @@
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="android.appwidget.action.WIDGET_BUTTON" />
             </intent-filter>
-
+            <intent-filter>
+                <action android:name="AUTO_UPDATE" />
+            </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/my_widget_activity_info" />
@@ -36,3 +38,5 @@
     </application>
 
 </manifest>
+
+<!-- <action android:name="android.appwidget.action.WIDGET_BUTTON" /> -->

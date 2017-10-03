@@ -55,7 +55,6 @@ public class LiskData extends AsyncTask<String, Void, String> {
                 jsonObject = new JSONObject(s);
                 lastPrice = jsonObject.getString("last");
                 lastPrice = addZeros(lastPrice);
-                //Toast.makeText(context, String.valueOf(lastPrice.length()), Toast.LENGTH_SHORT).show();
                 minPrice = jsonObject.getString("min");
                 minPrice = addZeros(minPrice);
                 maxPrice = jsonObject.getString("max");
@@ -76,9 +75,8 @@ public class LiskData extends AsyncTask<String, Void, String> {
             // updates all widgets on screen
             manager.updateAppWidget(appWidgetId, views);
 
-            Toast.makeText(context, "updating", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(context, "No Internet connection", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "No Internet connection or Bitbay server problems", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -90,9 +88,8 @@ public class LiskData extends AsyncTask<String, Void, String> {
         } else if (dot == -1){
             price += ".00";
         }
-        
+
         return price;
-        // zobaczy na którym miejscu jest kropka
     }
 
 }

@@ -17,8 +17,11 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.concurrent.ExecutionException;
 
+import qbabor4.pl.liskwidget.AppWidgetAlarm;
 import qbabor4.pl.liskwidget.LiskData;
 import qbabor4.pl.liskwidget.R;
+
+import static qbabor4.pl.liskwidget.AppWidgetAlarm.ACTION_AUTO_UPDATE;
 
 /**
  * Implementation of App Widget functionality.
@@ -65,7 +68,7 @@ public class MyWidgetActivity extends AppWidgetProvider {
     private void createIntentForRefreshButton(Context context, RemoteViews views, int appWidgetId){ //TODO!: Not creating intent
         // Creating intent for button. When button is pressed you can get it in onReceive()
         Intent intent = new Intent(context, MyWidgetActivity.class);
-        intent.setAction(WIDGET_BUTTON);
+        intent.setAction(MyWidgetActivity.WIDGET_BUTTON);
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId); // adds id of widget to intent informations (Not used)
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         views.setOnClickPendingIntent(R.id.refresh_button_white, pendingIntent);
@@ -89,6 +92,11 @@ public class MyWidgetActivity extends AppWidgetProvider {
             // When refresh button is clicked
             if (WIDGET_BUTTON.equals(intent.getAction())) {
                 setLiskData(context);
+                Toast.makeText(context, "updating", Toast.LENGTH_SHORT).show();
+            }
+            if(intent.getAction().equals(ACTION_AUTO_UPDATE))
+            {
+                Toast.makeText(context, "alarm", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -113,11 +121,17 @@ public class MyWidgetActivity extends AppWidgetProvider {
     @Override
     public void onEnabled(Context context) {
         // Enter relevant functionality for when the first widget is created
+        // start alarm
+        AppWidgetAlarm appWidgetAlarm = new AppWidgetAlarm(context.getApplicationContext());
+        appWidgetAlarm.startAlarm();
     }
 
     @Override
     public void onDisabled(Context context) {
         // Enter relevant functionality for when the last widget is disabled
+        // stop alarm
+        AppWidgetAlarm appWidgetAlarm = new AppWidgetAlarm(context.getApplicationContext());
+        appWidgetAlarm.stopAlarm();
     }
 }
 
